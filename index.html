@@ -1,135 +1,360 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マンモグラフィー検定テスト対策ツール</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+            <title>マンモグラフィー検定テスト対策ツール</title>
+        <link rel="stylesheet" href="style.css">
+        <!-- Google Fonts for better typography -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    </head>
 <body>
-    <!-- トップページ -->
-    <div id="top-page" class="page active">
-        <div class="container">
-            <header>
-                <h1>マンモグラフィー検定テスト対策ツール</h1>
-                <p class="subtitle">実践的なテスト対策で合格を目指しましょう</p>
-            </header>
-            <div class="mode-selection">
-                <div class="mode-card" onclick="startTestMode('official')">
-                    <h2>本番形式モード</h2>
-                    <p>実際の検定試験と同じ形式・問題数で出題されます</p>
-                    <div class="mode-icon">📋</div>
-                </div>
-                <div class="mode-card" onclick="startTestMode('custom')">
-                    <h2>カスタムモード</h2>
-                    <p>問題数や分野を自由に選択して学習できます</p>
-                    <div class="mode-icon">⚙️</div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <!-- トップページ -->
+        <div id="top-page" class="page active">
+                    <div class="container">
+                                    <header class="top-header">
+                                                        <div class="logo-area">
+                                                                                <div class="logo-icon">🩺</div>div>
+                                                                                <h1>マンモグラフィー検定<br><span>テスト対策ツール</span></h1>
+                                                        </div>div>
+                                                    <p class="subtitle">実践的なテスト対策で合格を目指しましょう</p>p>
+                                    </header>header>
+                    
+                                <!-- 学習統計（LocalStorage対応） -->
+                                <div class="stats-panel" id="stats-panel">
+                                                <h3>📊 あなたの学習状況</h3>
+                                                <div class="stats-grid">
+                                                                    <div class="stat-item">
+                                                                                            <span class="stat-value" id="stat-total-tests">0</span>
+                                                                                            <span class="stat-label">総テスト回数</span>
+                                                                    </div>div>
+                                                                    <div class="stat-item">
+                                                                                            <span class="stat-value" id="stat-total-questions">0</span>
+                                                                                            <span class="stat-label">解答した問題</span>
+                                                                    </div>div>
+                                                                    <div class="stat-item">
+                                                                                            <span class="stat-value" id="stat-avg-score">-%</span>
+                                                                                            <span class="stat-label">平均正答率</span>
+                                                                    </div>div>
+                                                                    <div class="stat-item">
+                                                                                            <span class="stat-value" id="stat-streak">0</span>
+                                                                                            <span class="stat-label">連続学習日数</span>
+                                                                    </div>div>
+                                                </div>div>
+                                </div>div>
+                    
+                                <div class="mode-selection">
+                                                <button class="mode-card" onclick="startTestMode('official')">
+                                                                    <div class="mode-icon">📋</div>div>
+                                                                    <div class="mode-content">
+                                                                                            <h2>本番形式モード</h2>
+                                                                                            <p>実際の検定試験と同じ形式・問題数で出題されます</p>
+                                                                                            <div class="mode-badge">50問 / 制限時間あり</div>div>
+                                                                    </div>div>
+                                                                    <div class="mode-arrow">→</div>div>
+                                                </button>button>
+                                
+                                                <button class="mode-card" onclick="startTestMode('custom')">
+                                                                    <div class="mode-icon">⚙️</div>div>
+                                                                    <div class="mode-content">
+                                                                                            <h2>カスタムモード</h2>
+                                                                                            <p>問題数や分野を自由に選択して学習できます</p>
+                                                                                            <div class="mode-badge">自由設定</div>div>
+                                                                    </div>div>
+                                                                    <div class="mode-arrow">→</div>div>
+                                                </button>button>
+                                
+                                                <button class="mode-card mode-card-review" onclick="startTestMode('review')">
+                                                                    <div class="mode-icon">🔄</div>div>
+                                                                    <div class="mode-content">
+                                                                                            <h2>復習モード</h2>
+                                                                                            <p>過去に間違えた問題を集中的に学習</p>
+                                                                                            <div class="mode-badge" id="wrong-count-badge">0問</div>div>
+                                                                    </div>div>
+                                                                    <div class="mode-arrow">→</div>div>
+                                                </button>button>
+                                </div>div>
+                    
+                                <footer class="top-footer">
+                                                <button class="btn-text" onclick="showHistory()">📜 学習履歴を見る</button>button>
+                                                <button class="btn-text" onclick="resetData()">🗑️ データをリセット</button>button>
+                                </footer>footer>
+                    </div>div>
+        </div>div>
 
     <!-- テスト設定画面（カスタムモード用） -->
     <div id="test-setup-page" class="page">
-        <div class="container">
-            <header>
-                <h1>テスト設定</h1>
-                <button class="btn-back" onclick="goToTop()">← 戻る</button>
-            </header>
-            <div class="setup-form">
-                <div class="form-group">
-                    <label for="question-count">問題数</label>
-                    <select id="question-count">
-                        <option value="10">10問</option>
-                        <option value="20" selected>20問</option>
-                        <option value="30">30問</option>
-                        <option value="50">50問</option>
-                        <option value="100">100問</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>分野選択（複数選択可）</label>
-                    <div class="category-checkboxes" id="category-checkboxes">
-                        <!-- カテゴリチェックボックスはJavaScriptで動的生成 -->
-                    </div>
-                </div>
-                <button class="btn-primary" onclick="startCustomTest()">テスト開始</button>
-            </div>
-        </div>
-    </div>
+            <div class="container">
+                        <header class="page-header">
+                                        <button class="btn-back" onclick="goToTop()">
+                                                            <span class="back-icon">←</span>
+                                                            <span>戻る</span>
+                                        </button>button>
+                                        <h1>テスト設定</h1>
+                        </header>header>
+            
+                        <div class="setup-form">
+                                        <div class="form-section">
+                                                            <label class="form-label">問題数を選択</label>label>
+                                                            <div class="question-count-selector">
+                                                                                    <button class="count-option" data-count="10">10問<span class="count-time">約5分</span></button>button>
+                                                                                    <button class="count-option selected" data-count="20">20問<span class="count-time">約10分</span></button>button>
+                                                                                    <button class="count-option" data-count="30">30問<span class="count-time">約15分</span></button>button>
+                                                                                    <button class="count-option" data-count="50">50問<span class="count-time">約25分</span></button>button>
+                                                                                    <button class="count-option" data-count="100">100問<span class="count-time">約50分</span></button>button>
+                                                            </div>div>
+                                                            <input type="hidden" id="question-count" value="20">
+                                        </div>div>
+                        
+                                        <div class="form-section">
+                                                            <label class="form-label">
+                                                                                    分野を選択
+                                                                                    <button class="btn-select-all" onclick="toggleAllCategories()">全選択/解除</button>button>
+                                                            </label>label>
+                                                            <div class="category-checkboxes" id="category-checkboxes">
+                                                            </div>div>
+                                        </div>div>
+                        
+                                        <div class="form-section">
+                                                            <label class="form-label">オプション</label>label>
+                                                            <div class="options-list">
+                                                                                    <label class="option-item">
+                                                                                                                <input type="checkbox" id="shuffle-choices" checked>
+                                                                                                                <span class="option-checkbox"></span>
+                                                                                                                <span class="option-text">選択肢をシャッフル</span>
+                                                                                        </label>label>
+                                                                                    <label class="option-item">
+                                                                                                                <input type="checkbox" id="show-timer" checked>
+                                                                                                                <span class="option-checkbox"></span>
+                                                                                                                <span class="option-text">タイマーを表示</span>
+                                                                                        </label>label>
+                                                                                    <label class="option-item">
+                                                                                                                <input type="checkbox" id="instant-feedback">
+                                                                                                                <span class="option-checkbox"></span>
+                                                                                                                <span class="option-text">即時フィードバック（解答後すぐに正誤表示）</span>
+                                                                                        </label>label>
+                                                            </div>div>
+                                        </div>div>
+                        
+                                        <button class="btn-primary btn-large" onclick="startCustomTest()">
+                                                            <span class="btn-icon">▶</span>
+                                                            テストを開始する
+                                        </button>button>
+                        </div>div>
+            </div>div>
+    </div>div>
 
     <!-- テスト実行画面 -->
     <div id="test-page" class="page">
-        <div class="container">
-            <header class="test-header">
-                <div class="test-info">
-                    <span id="test-mode-label"></span>
-                    <span id="test-timer" class="timer"></span>
-                </div>
-                <div class="test-progress">
-                    <span id="current-question-num">1</span> / <span id="total-question-num">20</span>
-                </div>
-            </header>
-            <div class="question-navigation" id="question-navigation">
-                <!-- 問題一覧ナビゲーション（JavaScriptで動的生成） -->
-            </div>
-            <div class="question-container">
-                <div class="question-header">
-                    <span class="question-number">問題 <span id="question-number">1</span></span>
-                    <span class="question-category" id="question-category"></span>
-                </div>
-                <div class="question-text" id="question-text"></div>
-                <div class="question-image" id="question-image"></div>
-                <div class="choices-container" id="choices-container">
-                    <!-- 選択肢はJavaScriptで動的生成 -->
-                </div>
-                <div class="question-nav-buttons">
-                    <button class="btn-secondary" id="btn-prev" onclick="navigateQuestion(-1)">前へ</button>
-                    <button class="btn-secondary" id="btn-next" onclick="navigateQuestion(1)">次へ</button>
-                    <button class="btn-primary" id="btn-submit" onclick="submitTest()" style="display: none;">テスト終了</button>
-                </div>
-            </div>
-        </div>
-    </div>
+            <div class="container test-container">
+                        <header class="test-header">
+                                        <div class="test-header-left">
+                                                            <button class="btn-icon-only" onclick="confirmExit()">✕</button>button>
+                                                            <span class="test-mode-badge" id="test-mode-label">本番形式</span>
+                                        </div>div>
+                                        <div class="test-header-center">
+                                                            <div class="progress-bar-container">
+                                                                                    <div class="progress-bar" id="progress-bar"></div>div>
+                                                            </div>div>
+                                                            <span class="progress-text"><span id="current-question-num">1</span> / <span id="total-question-num">20</span></span>
+                                        </div>div>
+                                        <div class="test-header-right">
+                                                            <span class="timer" id="test-timer">00:00</span>
+                                        </div>div>
+                        </header>header>
+            
+                        <div class="question-nav-wrapper">
+                                        <button class="question-nav-toggle" onclick="toggleQuestionNav()">
+                                                            <span>問題一覧</span>
+                                                            <span class="toggle-icon" id="nav-toggle-icon">▼</span>
+                                        </button>button>
+                                        <div class="question-navigation collapsed" id="question-navigation">
+                                        </div>div>
+                        </div>div>
+            
+                        <main class="question-area">
+                                        <div class="question-card">
+                                                            <div class="question-meta">
+                                                                                    <span class="question-number-badge">Q<span id="question-number">1</span></span>
+                                                                                    <span class="question-category-badge" id="question-category"></span>
+                                                                                    <span class="question-type-badge" id="question-type-badge">単一選択</span>
+                                                            </div>div>
+                                        
+                                                            <div class="question-text" id="question-text"></div>div>
+                                        
+                                                            <div class="question-image" id="question-image"></div>div>
+                                        
+                                                            <div class="choices-container" id="choices-container">
+                                                            </div>div>
+                                        
+                                                            <div class="instant-feedback" id="instant-feedback" style="display: none;">
+                                                                                    <div class="feedback-result" id="feedback-result"></div>div>
+                                                                                    <div class="feedback-explanation" id="feedback-explanation"></div>div>
+                                                            </div>div>
+                                        </div>div>
+                        </main>main>
+            
+                        <footer class="question-footer">
+                                        <button class="btn-nav btn-prev" id="btn-prev" onclick="navigateQuestion(-1)">
+                                                            <span class="btn-nav-icon">←</span>
+                                                            <span class="btn-nav-text">前へ</span>
+                                        </button>button>
+                                        <button class="btn-nav btn-next" id="btn-next" onclick="navigateQuestion(1)">
+                                                            <span class="btn-nav-text">次へ</span>
+                                                            <span class="btn-nav-icon">→</span>
+                                        </button>button>
+                                        <button class="btn-submit" id="btn-submit" onclick="submitTest()" style="display: none;">
+                                                            テストを終了する
+                                        </button>button>
+                        </footer>footer>
+            </div>div>
+    </div>div>
 
     <!-- 結果画面 -->
     <div id="result-page" class="page">
-        <div class="container">
-            <header>
-                <h1>テスト結果</h1>
-                <button class="btn-back" onclick="goToTop()">トップに戻る</button>
-            </header>
-            <div class="result-summary">
-                <div class="score-card">
-                    <h2>総合スコア</h2>
-                    <div class="score-display">
-                        <span class="score-number" id="total-score">0</span>
-                        <span class="score-total">/ <span id="total-questions">0</span></span>
-                    </div>
-                    <div class="score-percentage" id="score-percentage">0%</div>
-                </div>
-                <div class="category-scores" id="category-scores">
-                    <!-- 分野別スコアはJavaScriptで動的生成 -->
-                </div>
-            </div>
-            <div class="result-details">
-                <h2>問題別結果</h2>
-                <div id="question-results">
-                    <!-- 問題別結果はJavaScriptで動的生成 -->
-                </div>
-            </div>
-            <div class="result-actions">
-                <button class="btn-primary" onclick="exportToPDF()">PDF出力</button>
-            </div>
-        </div>
-    </div>
+            <div class="container">
+                        <header class="result-header">
+                                        <div class="result-score-circle" id="result-score-circle">
+                                                            <svg viewBox="0 0 100 100">
+                                                                                    <circle class="score-circle-bg" cx="50" cy="50" r="45"/>
+                                                                                    <circle class="score-circle-progress" cx="50" cy="50" r="45" id="score-circle-progress"/>
+                                                            </svg>svg>
+                                                            <div class="score-text">
+                                                                                    <span class="score-percentage" id="score-percentage">0</span>
+                                                                                    <span class="score-unit">%</span>
+                                                            </div>div>
+                                        </div>div>
+                                        <div class="result-summary-text">
+                                                            <h1 id="result-message">お疲れ様でした！</h1>
+                                                            <p><span id="total-score">0</span>span>問中 <span id="correct-count">0</span>span>問正解</p>
+                                                            <p class="result-time">解答時間: <span id="result-time">00:00</span>span></p>
+                                        </div>div>
+                        </header>header>
+            
+                        <section class="result-section">
+                                        <h2>📊 分野別スコア</h2>
+                                        <div class="category-scores" id="category-scores">
+                                        </div>div>
+                        </section>section>
+            
+                        <section class="result-section">
+                                        <h2>📝 問題別結果</h2>
+                                        <div class="result-filter">
+                                                            <button class="filter-btn active" data-filter="all">すべて</button>button>
+                                                            <button class="filter-btn" data-filter="incorrect">間違いのみ</button>button>
+                                                            <button class="filter-btn" data-filter="correct">正解のみ</button>button>
+                                        </div>div>
+                                        <div class="question-results" id="question-results">
+                                        </div>div>
+                        </section>section>
+            
+                        <div class="result-actions">
+                                        <button class="btn-primary btn-large" onclick="goToTop()">
+                                                            <span class="btn-icon">🏠</span>
+                                                            トップに戻る
+                                        </button>button>
+                                        <button class="btn-secondary btn-large" onclick="retryTest()">
+                                                            <span class="btn-icon">🔄</span>
+                                                            もう一度挑戦
+                                        </button>button>
+                                        <button class="btn-outline btn-large" onclick="exportToPDF()">
+                                                            <span class="btn-icon">📄</span>
+                                                            PDF出力
+                                        </button>button>
+                        </div>div>
+            </div>div>
+    </div>div>
 
-    <!-- jsPDFライブラリ -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-    
-    <!-- アプリケーションスクリプト -->
-    <script src="questions.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
+    <!-- 学習履歴モーダル -->
+    <div id="history-modal" class="modal">
+            <div class="modal-content">
+                        <div class="modal-header">
+                                        <h2>📜 学習履歴</h2>
+                                        <button class="modal-close" onclick="closeHistory()">✕</button>button>
+                        </div>div>
+                        <div class="modal-body" id="history-content">
+                        </div>div>
+            </div>div>
+    </div>div>
+
+    <!-- 確認ダイアログ -->
+    <div id="confirm-modal" class="modal">
+            <div class="modal-content modal-small">
+                        <div class="modal-body">
+                                        <p id="confirm-message">テストを終了しますか？</p>
+                        </div>div>
+                        <div class="modal-footer">
+                                        <button class="btn-secondary" onclick="closeConfirm()">キ<ャン!セルD<O/CbTuYtPtEo nh>t
+                                        m l > 
+                                         < h t m l   l a n g = " j<ab"u>t
+                                         t<ohne acdl>a
+                                         s s = " b<tmne-tpar icmhaarrys"e ti=d"=U"TcFo-n8f"i>r
+                                         m - a c t<imoent"a> 終了nするa<m/eb=u"tvtioenw>p
+                                         o r t "   c o n t e n t =<"/wdiidvt>h
+                                         = d e v i c e - w<i/ddtihv,> 
+                                         i n i t i<a/ld-isvc>a
+                                         l
+                                         e = 1 . 0<,! -u-s ejrs-PsDcFaライlブラaリ b-l-e>=
+                                         n o " > 
+                                         < s c r i<ptti tslrec>=マン"モグhラフtィーt検定pテスsト対:策ツ/ール/<c/dtnijtsl.ec>l
+                                         o u d f l<alrien.kc orme/la=j"asxt/ylliebssh/ejestp"d fh/r2e.f5=."1s/tjyslped.fc.susm"d>.
+                                         m i n . j<s!"->-< /Gsocorgilpet >F
+                                         o n t s  <fsocrr ibpett tserrc =t"yhptotgprsa:p/h/yc d-n-j>s
+                                         . c l o u<dlfilnakr er.eclo=m"/parjeacxo/nlniebcst/"j shprdeff-=a"uhttottpasb:l/e//f3o.n5t.s3.1g/ojosgpldefa.ppilsu.gcionm."a>u
+                                         t o t a b<llei.nmki nr.ejls="">p<r/esccorninpetc>t
+                                         "   h r e<fs=c"rhitpttp ss:r/c/=f"ohntttsp.sg:s/t/actdinc..jcsodme"l icvrro.snseotr/ingpimn/>j
+                                         s p d f -<floinntk@ 1h.r0e.f1=/"dhitsttp/sN:o/t/ofSoanntssJ.Pg-oRoeggluelaapri.sm.icno.mj/sc"s>s<2/?sfcarmiiplty>=
+                                         N
+                                         o t o + S<asncsr+iJpPt: wsgrhct=@"4q0u0e;s5t0i0o;n7s0.0j&sd"i>s<p/lsacyr=ispwta>p
+                                         "   r e l<=s"csrtiyplte sshrece=t""a>p
+                                         p<./jhse"a>d<>/
+                                         s<cbroidpyt>>
+                                         
+                                          < / b o<d!y->-
+                                           <トッ/プペhージt m-l->>
+                                               <div id="top-page" class="page active">
+                                                       <div class="container">
+                                                                   <header class="top-header">
+                                                                                   <div class="logo-area">
+                                                                                                       <div class="logo-icon">🩺</div>div>
+                                                                                                       <h1>マンモグラフィー検定<br><span>テスト対策ツール</span></h1>
+                                                                                       </div>div>
+                                                                                   <p class="subtitle">実践的なテスト対策で合格を目指しましょう</p>
+                                                                   </header>header>
+                                                       
+                                                                   <!-- 学習統計（LocalStorage対応） -->
+                                                                   <div class="stats-panel" id="stats-panel">
+                                                                                   <h3>📊 あなたの学習状況</h3>
+                                                                                   <div class="stats-grid">
+                                                                                                       <div class="stat-item">
+                                                                                                                               <span class="stat-value" id="stat-total-tests">0</span>
+                                                                                                                               <span class="stat-label">総テスト回数</span>
+                                                                                                           </div>div>
+                                                                                                       <div class="stat-item">
+                                                                                                                               <span class="stat-value" id="stat-total-questions">0</span>
+                                                                                                                               <span class="stat-label">解答した問題</span>
+                                                                                                           </div>div>
+                                                                                                       <div class="stat-item">
+                                                                                                                               <span class="stat-value" id="stat-avg-score">-%</span>
+                                                                                                                               <span class="stat-label">平均正答率</span>
+                                                                                                           </div>div>
+                                                                                                       <div class="stat-item">
+                                                                                                                               <span class="stat-value" id="stat-streak">0</span>
+                                                                                                                               <span class="stat-label">連続学習日数</span>
+                                                                                                           </div>div>
+                                                                                       </div>div>
+                                                                   </div>div>
+                                                       
+                                                                   <div class="mode-selection">
+                                                                                   <button class="mode-card" onclick="startTestMode('official')">
+                                                                                                       <div class="mode-icon">📋</div>div>
+                                                                                                       <div class="mode-content">
+                                                                                                                               <h2>本番形式モード</h2>
+                                                                                                                               <p>実際の検定試験と同じ形式・問題数で出題されます</p>
+                                                                                                                               <div class="mode-badge">50問 / 制限時間あり</div>div>
+                                                                                                           </div>div>
+                                                                                                       <div class="</cbroidpyt></p></p></span></h1>
+</body></title>
+    </head>
