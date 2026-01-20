@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マンモグラフィー検定テスト対策ツール</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- トップページ -->
+    <div id="top-page" class="page active">
+        <div class="container">
+            <header>
+                <h1>マンモグラフィー検定テスト対策ツール</h1>
+                <p class="subtitle">実践的なテスト対策で合格を目指しましょう</p>
+            </header>
+            <div class="mode-selection">
+                <div class="mode-card" onclick="startTestMode('official')">
+                    <h2>本番形式モード</h2>
+                    <p>実際の検定試験と同じ形式・問題数で出題されます</p>
+                    <div class="mode-icon">📋</div>
+                </div>
+                <div class="mode-card" onclick="startTestMode('custom')">
+                    <h2>カスタムモード</h2>
+                    <p>問題数や分野を自由に選択して学習できます</p>
+                    <div class="mode-icon">⚙️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- テスト設定画面（カスタムモード用） -->
+    <div id="test-setup-page" class="page">
+        <div class="container">
+            <header>
+                <h1>テスト設定</h1>
+                <button class="btn-back" onclick="goToTop()">← 戻る</button>
+            </header>
+            <div class="setup-form">
+                <div class="form-group">
+                    <label for="question-count">問題数</label>
+                    <select id="question-count">
+                        <option value="10">10問</option>
+                        <option value="20" selected>20問</option>
+                        <option value="30">30問</option>
+                        <option value="50">50問</option>
+                        <option value="100">100問</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>分野選択（複数選択可）</label>
+                    <div class="category-checkboxes" id="category-checkboxes">
+                        <!-- カテゴリチェックボックスはJavaScriptで動的生成 -->
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="startCustomTest()">テスト開始</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- テスト実行画面 -->
+    <div id="test-page" class="page">
+        <div class="container">
+            <header class="test-header">
+                <div class="test-info">
+                    <span id="test-mode-label"></span>
+                    <span id="test-timer" class="timer"></span>
+                </div>
+                <div class="test-progress">
+                    <span id="current-question-num">1</span> / <span id="total-question-num">20</span>
+                </div>
+            </header>
+            <div class="question-navigation" id="question-navigation">
+                <!-- 問題一覧ナビゲーション（JavaScriptで動的生成） -->
+            </div>
+            <div class="question-container">
+                <div class="question-header">
+                    <span class="question-number">問題 <span id="question-number">1</span></span>
+                    <span class="question-category" id="question-category"></span>
+                </div>
+                <div class="question-text" id="question-text"></div>
+                <div class="question-image" id="question-image"></div>
+                <div class="choices-container" id="choices-container">
+                    <!-- 選択肢はJavaScriptで動的生成 -->
+                </div>
+                <div class="question-nav-buttons">
+                    <button class="btn-secondary" id="btn-prev" onclick="navigateQuestion(-1)">前へ</button>
+                    <button class="btn-secondary" id="btn-next" onclick="navigateQuestion(1)">次へ</button>
+                    <button class="btn-primary" id="btn-submit" onclick="submitTest()" style="display: none;">テスト終了</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result-page" class="page">
+        <div class="container">
+            <header>
+                <h1>テスト結果</h1>
+                <button class="btn-back" onclick="goToTop()">トップに戻る</button>
+            </header>
+            <div class="result-summary">
+                <div class="score-card">
+                    <h2>総合スコア</h2>
+                    <div class="score-display">
+                        <span class="score-number" id="total-score">0</span>
+                        <span class="score-total">/ <span id="total-questions">0</span></span>
+                    </div>
+                    <div class="score-percentage" id="score-percentage">0%</div>
+                </div>
+                <div class="category-scores" id="category-scores">
+                    <!-- 分野別スコアはJavaScriptで動的生成 -->
+                </div>
+            </div>
+            <div class="result-details">
+                <h2>問題別結果</h2>
+                <div id="question-results">
+                    <!-- 問題別結果はJavaScriptで動的生成 -->
+                </div>
+            </div>
+            <div class="result-actions">
+                <button class="btn-primary" onclick="exportToPDF()">PDF出力</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- jsPDFライブラリ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    
+    <!-- アプリケーションスクリプト -->
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

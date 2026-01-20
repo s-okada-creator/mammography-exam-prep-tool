@@ -1,0 +1,595 @@
+/* リセットとベーススタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ページ管理 */
+.page {
+    display: none;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ヘッダー */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* ボタン */
+button {
+    font-family: inherit;
+    font-size: 1em;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: #4CAF50;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary {
+    background: #2196F3;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary:hover {
+    background: #0b7dda;
+    transform: translateY(-2px);
+}
+
+.btn-back {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* モード選択 */
+.mode-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.mode-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.mode-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.mode-card h2 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.mode-card p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.mode-icon {
+    font-size: 4em;
+}
+
+/* テスト設定フォーム */
+.setup-form {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: inherit;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.category-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.category-checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.category-checkbox-item:hover {
+    background: #e8e8e8;
+}
+
+.category-checkbox-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.category-checkbox-item label {
+    cursor: pointer;
+    flex: 1;
+    margin: 0;
+    font-weight: normal;
+}
+
+/* テスト実行画面 */
+.test-header {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.test-info {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.timer {
+    background: #ff6b6b;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.test-progress {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #333;
+}
+
+.question-navigation {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.question-nav-item {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.question-nav-item:hover {
+    border-color: #667eea;
+    background: #f0f0ff;
+}
+
+.question-nav-item.current {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.question-nav-item.answered {
+    background: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.question-container {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.question-number {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #667eea;
+}
+
+.question-category {
+    background: #667eea;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.question-text {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    line-height: 1.8;
+    color: #333;
+}
+
+.question-image {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.question-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.choices-container {
+    margin-bottom: 30px;
+}
+
+.choice-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.choice-item:hover {
+    border-color: #667eea;
+    background: #f0f0ff;
+}
+
+.choice-item.selected {
+    border-color: #667eea;
+    background: #e8e8ff;
+}
+
+.choice-item input[type="radio"],
+.choice-item input[type="checkbox"] {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.choice-item label {
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.question-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.question-nav-buttons button {
+    flex: 1;
+    max-width: 200px;
+}
+
+/* 結果画面 */
+.result-summary {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.score-card {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #eee;
+}
+
+.score-card h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.score-display {
+    font-size: 3em;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.score-total {
+    color: #999;
+    font-size: 0.6em;
+}
+
+.score-percentage {
+    font-size: 2em;
+    font-weight: 600;
+    color: #4CAF50;
+}
+
+.category-scores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.category-score-item {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.category-score-item h3 {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.category-score-item .score {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #667eea;
+}
+
+.result-details {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.result-details h2 {
+    color: #667eea;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+.question-result-item {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    border-left: 5px solid;
+}
+
+.question-result-item.correct {
+    background: #e8f5e9;
+    border-color: #4CAF50;
+}
+
+.question-result-item.incorrect {
+    background: #ffebee;
+    border-color: #f44336;
+}
+
+.question-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.question-result-number {
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.question-result-mark {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.question-result-item.correct .question-result-mark {
+    color: #4CAF50;
+}
+
+.question-result-item.incorrect .question-result-mark {
+    color: #f44336;
+}
+
+.question-result-text {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.question-result-answer {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+}
+
+.question-result-explanation {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    border-left: 3px solid #667eea;
+}
+
+.result-actions {
+    text-align: center;
+}
+
+.result-actions button {
+    font-size: 1.2em;
+    padding: 15px 40px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+
+    .mode-selection {
+        grid-template-columns: 1fr;
+    }
+
+    .test-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .question-container {
+        padding: 20px;
+    }
+
+    .question-text {
+        font-size: 1em;
+    }
+
+    .score-display {
+        font-size: 2em;
+    }
+
+    .category-scores {
+        grid-template-columns: 1fr;
+    }
+
+    .question-nav-buttons {
+        flex-direction: column;
+    }
+
+    .question-nav-buttons button {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .setup-form,
+    .question-container,
+    .result-summary,
+    .result-details {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+}
